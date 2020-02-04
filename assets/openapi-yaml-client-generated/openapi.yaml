@@ -1,0 +1,352 @@
+openapi: 3.0.0
+info:
+  title: Credit Check API
+  description: Credit Check service API for BigCo, Inc.
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/amundsen/credit-check-api/1.0.0
+  description: SwaggerHub API Auto Mocking
+tags:
+- name: credit
+  description: Credit Check API
+paths:
+  /:
+    get:
+      tags:
+      - credit
+      summary: Home resource for the API
+      operationId: home
+      parameters:
+      - name: if-None-Match
+        in: header
+        description: Conditional Create/Read Header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: '*'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/prag+json:
+              schema:
+                $ref: '#/components/schemas/reply'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/reply'
+        default:
+          description: unexpected error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+  /list:
+    get:
+      tags:
+      - credit
+      summary: Use this to get a list of credit checks
+      operationId: creditCheckList
+      parameters:
+      - name: if-None-Match
+        in: header
+        description: Conditional Create/Read Header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: '*'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/prag+json:
+              schema:
+                $ref: '#/components/schemas/reply'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/reply'
+        default:
+          description: unexpected error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+  /list/{ratingId}:
+    get:
+      tags:
+      - credit
+      summary: Use this to get a single credit check record
+      operationId: creditCheckItem
+      parameters:
+      - name: if-None-Match
+        in: header
+        description: Conditional Create/Read Header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: '*'
+      - name: ratingId
+        in: path
+        description: credit check record identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: q1w2e3
+      responses:
+        "200":
+          description: OK
+          content:
+            application/prag+json:
+              schema:
+                $ref: '#/components/schemas/reply'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/reply'
+        default:
+          description: unexpected error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+  /form:
+    get:
+      tags:
+      - credit
+      summary: Use this to start a new credit check record
+      operationId: creditCheckForm
+      parameters:
+      - name: if-None-Match
+        in: header
+        description: Conditional Create/Read Header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: '*'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/prag+json:
+              schema:
+                $ref: '#/components/schemas/reply'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/reply'
+        default:
+          description: unexpected error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+    post:
+      tags:
+      - credit
+      summary: Use this to complete a new credit check record
+      operationId: creditCheckWrite
+      parameters:
+      - name: if-None-Match
+        in: header
+        description: Conditional Create/Read Header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: '*'
+      requestBody:
+        $ref: '#/components/requestBodies/creditBody'
+      responses:
+        "201":
+          description: Created
+          headers:
+            Location:
+              description: URL of created resource
+              style: simple
+              explode: false
+              schema:
+                type: string
+              example: /list/q1w2e3
+        default:
+          description: unexpected error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/error'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+components:
+  schemas:
+    error:
+      type: object
+      properties:
+        type:
+          type: string
+          example: Invalid Record
+        title:
+          type: string
+          example: One or more missing properties
+        detail:
+          type: string
+          example: Review the submitted record for missing required properties.
+    reply:
+      type: object
+      properties:
+        metadata:
+          type: array
+          items:
+            $ref: '#/components/schemas/reply_metadata'
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/reply_links'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/creditRecord'
+    creditCollection:
+      type: array
+      items:
+        $ref: '#/components/schemas/creditRecord'
+    creditRecord:
+      type: object
+      properties:
+        ratingId:
+          type: string
+          example: q1w2e3
+        companyName:
+          type: string
+          example: BigCo, Inc.
+        ratingValue:
+          type: string
+          example: "5"
+        dateRequested:
+          type: string
+          example: 2020-04-01
+    creditRequest:
+      type: object
+      properties:
+        companyName:
+          type: string
+          example: BigCo, Inc.
+    reply_metadata:
+      properties:
+        id:
+          type: string
+          example: title
+        value:
+          type: string
+          example: BigCo Credit Check
+    reply_properties:
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+    reply_links:
+      properties:
+        id:
+          type: string
+          example: home
+        href:
+          type: string
+          example: http://api.example.org/
+        title:
+          type: string
+          example: Home Page
+        method:
+          type: string
+          example: GET
+          enum:
+          - GET
+          - POST
+          - PUT
+          - PATCH
+          - DELETE
+        properties:
+          type: array
+          items:
+            $ref: '#/components/schemas/reply_properties'
+  responses:
+    created:
+      description: Created
+      headers:
+        Location:
+          description: URL of created resource
+          style: simple
+          explode: false
+          schema:
+            type: string
+          example: /list/q1w2e3
+    error:
+      description: unexpected error
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/error'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    reply:
+      description: OK
+      content:
+        application/prag+json:
+          schema:
+            $ref: '#/components/schemas/reply'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/reply'
+  parameters:
+    ifNoneMatch:
+      name: if-None-Match
+      in: header
+      description: Conditional Create/Read Header
+      required: false
+      style: simple
+      explode: false
+      schema:
+        type: string
+        example: '*'
+    ratingId:
+      name: ratingId
+      in: path
+      description: credit check record identifier
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+        example: q1w2e3
+  requestBodies:
+    creditBody:
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            $ref: '#/components/schemas/creditRequest'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/creditRequest'
+        text/plain:
+          schema:
+            $ref: '#/components/schemas/creditRequest'

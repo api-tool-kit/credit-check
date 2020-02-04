@@ -1,0 +1,63 @@
+FORMAT: 1A
+HOST: http://polls.apiblueprint.org/
+
+# Credit Check Responses
+
+Public API profile for BigCo's Credit Check service.
+
+## Credit Check History [/list]
+
+Returns a list of past credit rating records.
+
+### List Past Credit Checks [GET]
+
++ Response 200 (application/json)
+
+        {
+          "creditCheck" : [
+            {
+              "id" : "123",
+              "companyName" : "Vandelay Industries",
+              "dateRequested" : "2009-06-15T13:45:30",
+              "ratingValue" : "5"
+            },
+            {
+              "id" : "123",
+              "companyName" : "Vandelay Industries",
+              "dateRequested" : "2009-06-16T12:29:00",
+              "ratingValue" : "4"
+            },
+            {
+              "id" : "456",
+              "companyName" : "Vandelay Industries",
+              "dateRequested" : "2009-06-17T15:14:45",
+              "ratingValue" : "5"
+            },
+            {
+              "id" : "789",
+              "companyName" : "Vandelay Industries",
+              "dateRequested" : "2009-06-21T08:35:15",
+              "ratingValue" : "6"
+            }
+          ]
+        }
+
+## Credit Check Item [/list/123]
+
+Returns a list of past credit rating records.
+
+### Single Credit Checks [GET]
+
++ Response 200 (application/json)
+
+        {
+          "creditCheck" : [
+            {
+              "id" : "123",
+              "companyName" : "Vandelay Industries",
+              "dateRequested" : "2009-06-15T13:45:30",
+              "ratingValue" : "5"
+            }
+          ]
+        }
+

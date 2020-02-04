@@ -1,0 +1,6 @@
+Home -> CreditCheckList: GET
+CreditCheckList --> Home: GET
+CreditCheckList -> CreditCheckItem: GET (identifer=?)
+CreditCheckItem --> CreditCheckList: GET
+CreditCheckForm --> CreditCheckItem: POST (creditBody)
+CreditCheckList -> CreditCheckForm: GET

@@ -1,0 +1,42 @@
+{
+  "account": [
+    {
+      "id": "1c0x0mzp83t",
+      "division": "DryGoods",
+      "companyId": "1or2ab05imf",
+      "spendingLimit": "",
+      "discountPercentage": "",
+      "status": "active",
+      "dateCreated": "2019-02-25T08:12:00.579Z",
+      "dateUpdated": "2019-02-25T08:12:00.579Z",
+      "links": [
+        {
+          "rel": "read",
+          "href": "/account/1c0x0mzp83t"
+        },
+        {
+          "rel": "update",
+          "href": "/account/1c0x0mzp83t"
+        },
+        {
+          "rel": "delete",
+          "href": "/account/1c0x0mzp83t"
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "rel": "list",
+      "href": "/account/list"
+    },
+    {
+      "rel": "add",
+      "href": "/account/list"
+    },
+    {
+      "rel": "home",
+      "href": "/account/"
+    }
+  ]
+}

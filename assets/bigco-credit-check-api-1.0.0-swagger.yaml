@@ -1,0 +1,284 @@
+openapi: 3.0.0
+
+#######################################
+# Credit Check API 
+# 2019-12-22
+# mamund
+#######################################
+
+### info section ###
+info:
+  version: '1.0.0'
+  title: 'Credit Check API'
+  description: 'Credit Check service API for BigCo, Inc.'
+
+# Added by API Auto Mocking Plugin
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/amundsen/credit-check-api/1.0.0
+    
+### tags ###
+tags:
+  - name: credit
+    description: "Credit Check API"
+    
+### paths section ###
+paths: 
+
+  ### home ###
+  /:
+    get:
+      operationId: home
+      summary: Home resource for the API
+      tags:
+        - credit
+    
+      parameters:
+      - $ref: "#/components/parameters/ifNoneMatch"
+
+      responses:
+        "200":
+          $ref: "#/components/responses/reply"
+        default:
+          $ref: "#/components/responses/error"
+  
+  ### credit check list ###
+  /list:
+    get:
+      operationId: creditCheckList
+      summary: Use this to get a list of credit checks
+      tags:
+        - credit
+      
+      parameters:
+      - $ref: "#/components/parameters/ifNoneMatch"
+      
+      responses:
+        "200":
+          $ref: "#/components/responses/reply"
+        default:
+          $ref: "#/components/responses/error"
+          
+  ### credit check item ###
+  /list/{ratingId}:
+    get:
+      operationId: creditCheckItem
+      summary: Use this to get a single credit check record
+      tags:
+        - credit
+      
+      parameters:
+      - $ref: "#/components/parameters/ifNoneMatch"
+      - $ref: "#/components/parameters/ratingId"
+      
+      responses:
+        "200":
+          $ref: "#/components/responses/reply"
+        default:
+          $ref: "#/components/responses/error"
+  
+  ### credit check form ###
+  /form:
+    get:
+      operationId: creditCheckForm
+      summary: Use this to start a new credit check record
+      tags:
+        - credit
+        
+      parameters:
+      - $ref: "#/components/parameters/ifNoneMatch"
+      
+      responses:
+        "200":
+          $ref: "#/components/responses/reply"
+        default:
+          $ref: "#/components/responses/error"
+    post:
+      operationId: creditCheckWrite
+      summary: Use this to complete a new credit check record
+      tags:
+        - credit
+      
+      parameters:
+      - $ref: "#/components/parameters/ifNoneMatch"
+      
+      requestBody:
+        $ref: "#/components/requestBodies/creditBody"
+        
+      responses:
+        "201":
+          $ref: "#/components/responses/created"
+        default:
+          $ref: "#/components/responses/error"
+      
+### components section ###
+components:
+
+  ### parameters for requests ###    
+  parameters:
+  
+    ifNoneMatch:
+      name: if-None-Match
+      description: Conditional Create/Read Header
+      in: header
+      schema:
+        type: string
+        example: "*"
+        
+    ratingId:
+      name: ratingId
+      description: credit check record identifier
+      in: path
+      required: true
+      schema:
+        type: string
+        example: "q1w2e3"
+  
+  ### input bodies for reqeusts ###
+  requestBodies:
+    creditBody:
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            $ref: "#/components/schemas/creditRequest"
+        application/json:
+          schema:
+            $ref: "#/components/schemas/creditRequest"
+        text/plain:
+          schema:
+            $ref: "#/components/schemas/creditRequest"
+          
+  
+  ### output bodies for responses ###
+  responses:
+    
+    ### repsonse for creating new records
+    created:
+      description: Created
+      headers:
+        Location:
+          schema:
+            type: string
+          description: URL of created resource  
+          example: '/list/q1w2e3'
+
+    ### response for 4xxx or 5xx ###
+    error:
+      description: unexpected error
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/error'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          
+    ### response for 200 OK ###
+    reply:
+      description: OK
+      content:
+        application/prag+json:
+          schema:
+            $ref: '#/components/schemas/reply'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/reply'
+
+  ### property models ###
+  schemas:
+  
+    ### default error ###
+    error:
+      type: object
+      properties:
+        type: 
+          type: string
+          example: "Invalid Record"
+        title:
+          type: string
+          example: "One or more missing properties"
+        detail:
+          type: string
+          example: "Review the submitted record for missing required properties."
+
+    ### 200 OK reply (prag+json) ###
+    reply:
+      type: object
+      properties:
+        metadata:
+          type: array
+          items:
+            properties:
+              id:
+                type: string
+                example: "title"
+              value:
+                type: string
+                example: "BigCo Credit Check"
+        links:
+          type: array
+          items:
+            properties:
+              id:
+                type: string
+                example: "home"
+              href:
+                type: string
+                example: "http://api.example.org/"
+              title:
+                type: string
+                example: "Home Page"
+              method:
+                type: string
+                enum:
+                  - "GET"
+                  - "POST"
+                  - "PUT"
+                  - "PATCH"
+                  - "DELETE"
+                example: "GET"
+              properties:
+                type: array
+                items:
+                  properties:
+                    name:
+                      type: string
+                      example: ""
+                    value:
+                      type: string
+                      example: ""
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/creditRecord'
+
+    ### simplified 200 OK reply (plain json) ###
+    creditCollection:
+      type: array
+      items:
+        $ref: "#/components/schemas/creditRecord"
+        
+    ### internal credit record ###
+    creditRecord:
+      type: object
+      properties:
+        ratingId:
+          type: string
+          example: "q1w2e3"
+        companyName:
+          type: string
+          example: "BigCo, Inc."
+        ratingValue:
+          type: string
+          example: "5"
+        dateRequested:
+          type: string
+          example: "2020-04-01"
+          
+    ### credit check request body ###
+    creditRequest:
+      type: object
+      properties:
+        companyName:
+          type: string
+          example: "BigCo, Inc."
