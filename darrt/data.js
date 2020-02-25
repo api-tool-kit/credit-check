@@ -16,7 +16,7 @@ exports.props = [
 ];
 
 // required properties
-exports.reqd = ['id','companyName','status'];
+exports.reqd = ['companyName'];
 
 // enumerated properties
 exports.enums = [
