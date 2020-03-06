@@ -1,0 +1,7 @@
+# credit-check requests
+
+http://localhost:8181/ 
+http://localhost:8181/list/ 
+http://localhost:8181/form/ -X POST -d id=q1w2e3r4&companyName=mike&status=active
+http://localhost:8181/list/q1w2e3r4
+
