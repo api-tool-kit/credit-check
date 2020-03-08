@@ -7,28 +7,24 @@
 /*******************************************
 // initialization and setup for DARRT
 ********************************************/
-var express = require('express')
-var router = express.Router()
-var bodyParser = require('body-parser');
+var express, router, bodyParser, actions, representation, 
+  transitions, utils, templates, forms, metadata;
 
-var actions = require('./actions');
-var representation = require('./representation');
-var transitions = require('./transitions');
-var utils = require('./lib/utils');
+init();
 
-// set up request body parsing & response templates
-router.use(bodyParser.json({type:representation.getResponseTypes()}));
-router.use(bodyParser.urlencoded({extended:representation.urlencoded}));
-
-// load response templates and input forms
-var templates = representation.getTemplates();
-var forms = transitions.forms;
+// shared metadata for this service
+metadata = [
+  {name: "title", value: "BigCo Credit Check Service"},
+  {name: "author", value: "Mike Amundsen"},
+  {name: "release", value: "1.0.0"}
+];
 
 // optional tracking middleware
 router.use(function timeLog (req, res, next) {
-  console.log('Time: ', Date.now() + " : " + req.headers.host + req.url)
+  console.log('Time: ', Date.now() + " : " + req.headers.host + req.url + " : " + req.method + " : " + JSON.stringify(req.body))
   next()
-})
+});
+
 
 /************************************************************************/
 
