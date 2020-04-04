@@ -1,0 +1,4 @@
+heroku	https://git.heroku.com/credit-check-atk.git (fetch)
+heroku	https://git.heroku.com/credit-check-atk.git (push)
+origin	git@github.com:api-tool-kit/credit-check.git (fetch)
+origin	git@github.com:api-tool-kit/credit-check.git (push)
