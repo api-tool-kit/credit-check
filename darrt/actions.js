@@ -37,7 +37,7 @@ module.exports.home = function(req,res) {
       body = {
         id:"list",
         name:"credit-check",
-        rel:"collection credit",
+        rel:"collection credit-check",
         href: "{fullhost}/list/"
       };
     }
